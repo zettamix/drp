@@ -1,5 +1,5 @@
 #!/bin/bash
-#Used files
+#Files used
 f2="fills2.sql"
 m2="messages2.sql"
 mc="messageCompare.sql"
@@ -26,7 +26,11 @@ localpath="/home/zubu/test/amazonsynch/"
 destbucket="s3://bmdrp-test"
 
 
-#wget *ON HOLD UNTIL DRP HAS REMOTE ACCESS*
+getsqlfiles () {
+echo "Getting sql files"
+#wget on hold until public access is configured
+wget --verbose --no-cache 
+}
 
 insertfills2 () {
 echo"Drop, create and inserting Fills2 on Prod"
@@ -154,3 +158,20 @@ echo ""
 echo "=============================ALL DONE BYE=================================="
 }
 
+getsqlfiles
+
+insertfills2
+
+insertmessa2
+
+comparem
+
+comparef
+
+insertmessageprod
+
+insertfillsprod
+
+uploadaws
+
+alld
