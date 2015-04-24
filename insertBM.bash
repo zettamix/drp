@@ -26,12 +26,6 @@ localpath="/home/zubu/test/amazonsynch/"
 destbucket="s3://bmdrp-test"
 
 
-getsqlfiles () {
-echo "Getting sql files"
-#wget on hold until public access is configured
-wget --verbose --no-cache 
-}
-
 insertfills2 () {
 echo"Drop, create and inserting Fills2 on Prod"
 mysql -ptoor -Dbmp_2_8 < $f2
@@ -40,6 +34,7 @@ sleep 2
 echo "Done"
 sleep 2
 echo ""
+continue
 }
 
 insertmessa2 () {
@@ -50,6 +45,7 @@ sleep 2
 echo "Done"
 sleep 2
 echo ""
+continue
 }
 
 comparef () {
@@ -66,6 +62,7 @@ sleep 2
 exit 0
 fi
 echo ""
+continue
 }
 
 comparem () {
@@ -82,6 +79,7 @@ sleep 2
 exit 0
 fi
 echo ""
+continue
 }
 
 insertmessageprod () {
@@ -101,6 +99,7 @@ wait
 echo "DONE, messages inserted successfully"
 sleep 2
 echo ""
+continue
 }
 
 insertfillsprod () {
@@ -123,19 +122,9 @@ wait
 echo "DONE, fills inserted successfully"
 sleep 2
 echo ""
+continue
 }
 
-uploadaws () {
-echo "Getting photos from server"
-sleep 2
-#Pendin until to have remote access to the server
-echo "Uploading media to s3"
-sleep 2
-s3cmd sync $path $destbucket
-wait
-echo "All DONE"
-echo ""
-}
 
 continue () {
 #Just a continue function
@@ -158,8 +147,6 @@ echo ""
 echo "=============================ALL DONE BYE=================================="
 }
 
-getsqlfiles
-
 insertfills2
 
 insertmessa2
@@ -171,7 +158,5 @@ comparef
 insertmessageprod
 
 insertfillsprod
-
-uploadaws
 
 alld
