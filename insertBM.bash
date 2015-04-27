@@ -28,7 +28,7 @@ destbucket="s3://bmdrp-test"
 
 insertfills2 () {
 echo"Drop, create and inserting Fills2 on Prod"
-mysql -ptoor -Dbmp_2_8 < $f2
+mysql -u$dbu -p$dbp -Dbmp_2_8 < $f2
 wait
 sleep 2
 echo "Done"
