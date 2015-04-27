@@ -17,9 +17,9 @@ cmcnef="$(cat mcnefinal.txt)"
 #prod host
 dbh=""
 #prod user
-dbu=""
+dbu="root"
 #prod pass
-dbp=""
+dbp="toor"
 #photos local path
 localpath="/home/zubu/test/amazonsynch/"
 #s3 target bucket
@@ -39,7 +39,7 @@ continue
 
 insertmessa2 () {
 echo "Drop, create and insert Messages2 on Prod"
-mysql -ptoor -Dbmp_2_8 < $m2
+mysql -u$dbu -p$dbp -Dbmp_2_8 < $m2
 wait
 sleep 2
 echo "Done"
@@ -51,7 +51,7 @@ continue
 comparef () {
 echo "Comparing structure between fills and fills2"
 sleep 2
-mysql -ptoor -Dbmp_2_8 < $fc > $fcr
+mysql -u$dbu -p$dbp -Dbmp_2_8 < $fc > $fcr
 wait
 if [ "no differences" == "$fcrc" ]; then
 echo "Structure of tables fills and fills2 are the same, lets continue"
@@ -68,7 +68,7 @@ continue
 comparem () {
 echo "Comparing structure between messages and messages2"
 sleep 2
-mysql -ptoor -Dbmp_2_8 < $mc > $mcr
+mysql -u$dbu -p$dbp -Dbmp_2_8 < $mc > $mcr
 wait
 if [ "no differences" == "$mcrc" ]; then
 echo "Structure of tables messages and messages2 are the same, lets continue"
@@ -87,14 +87,14 @@ echo "Process to insert in to messages in Prod environment started"
 sleep 2
 echo "Building query to insert"
 sleep 2
-mysql -h$dbh -u$dbu -p$dbp -Dbmp_2_8 -e"select column_name from information_schema.columns where table_schema='bmp_2_8' and table_name='messages';" > $mcne
+mysql -u$dbu -p$dbp -Dbmp_2_8 -e"select column_name from information_schema.columns where table_schema='bmp_2_8' and table_name='messages';" > $mcne
 wait
 awk 'NR>2' $mcne | tr '\n' ',' | sed '$s/.$//' > $mcnef
 wait
 echo "DONE, Query ready to be inserted"
 sleep 2
 echo "Inserting rows into messages in Prod environment"
-mysql -h$dbh -u$dbu -p$dbp -Dbmp_2_8 -e"insert into messages select id=NULL as id,"$cmcnef" from messages2;"
+mysql -u$dbu -p$dbp -Dbmp_2_8 -e"insert into messages select id=NULL as id,"$cmcnef" from messages2;"
 wait
 echo "DONE, messages inserted successfully"
 sleep 2
@@ -107,17 +107,17 @@ echo "Process to insert in to fills in Prod environment started"
 sleep 2
 echo "Building query to insert"
 sleep 2
-mysql -h$dbh -u$dbu -p$dbp -Dbmp_2_8 -e"select column_name from information_schema.columns where table_schema='bmp_2_8' and table_name='fills';" > $fcne
+mysql -u$dbu -p$dbp -Dbmp_2_8 -e"select column_name from information_schema.columns where table_schema='bmp_2_8' and table_name='fills';" > $fcne
 wait
 awk 'NR>2' $fcne | tr '\n' ',' | sed '$s/.$//' > $fcnef
 wait
 echo "DONE, Query ready to be inserted"
-mysql -h$dbh -u$dbu -p$dbp -Dbmp_2_8 -e"insert into fills select id=NULL as id,"$cfcnef" from fills2;"
+mysql -u$dbu -p$dbp -Dbmp_2_8 -e"insert into fills select id=NULL as id,"$cfcnef" from fills2;"
 wait
 echo "Insert DONE"
 sleep 2
 echo "Updating each fill with their new source_id"
-mysql -h$dbh -u$dbu -p$dbp -Dbmp_2_8 -e"update fills as f,(select m.id,m.name from messages as m,messages2 as mdos where m.name=mdos.name) as mm set f.source_id=mm.id where mm.name=f.name;"
+mysql -u$dbu -p$dbp -Dbmp_2_8 -e"update fills as f,(select m.id,m.name from messages as m,messages2 as mdos where m.name=mdos.name) as mm set f.source_id=mm.id where mm.name=f.name;"
 wait
 echo "DONE, fills inserted successfully"
 sleep 2
