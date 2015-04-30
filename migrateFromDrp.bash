@@ -17,3 +17,11 @@ mysqldump --opt --host=bm28reportsrr.cjaguzeo9pm4.us-east-1.rds.amazonaws.com --
 mysqldump --opt --host=bm28reportsrr.cjaguzeo9pm4.us-east-1.rds.amazonaws.com --user=alopez --password=lopez03a --no-create-info --lock-tables=false --where="source_id=49898819" bmp_2_8 fills2 > $path/fills2.sql
 
 zip -r $zpath $path/img.zip *
+
+echo "Replacing line"
+echo "The result is:"
+sleep 2
+sed "s:KEY \`templateIdent1LastIndex\` (\`template_id\`,\`ident1\`,\`last\`),:jajaja xD:" 2test.txt > almostthere.txt
+sed 's:jajaja xD:KEY `templateIdent1LastIndex` (`template_id`,`ident1`,`last`):' almostthere.txt > finallythere.txt
+echo "Done"
+
