@@ -18,6 +18,13 @@ mysqldump --opt --host=bm28reportsrr.cjaguzeo9pm4.us-east-1.rds.amazonaws.com --
 
 zip -r $zpath $path/img.zip *
 
+#FOR USING VARIABLES IN SED YOU CAN USE THIS: 
+#SEARCH="REPLACETHISTEXT"
+#REPLACE="Hello"
+#
+#cat sample.txt | sed -e "s/$SEARCH/$REPLACE/" >> result.txt
+
+
 echo "Replacing line"
 echo "The result is:"
 sleep 2
